@@ -24,6 +24,7 @@ public class LoginProducer {
         
         System.out.println("publishing to topic  " + topic);
         this.kafkaTemp.send(topic, userJson);
+        System.out.println(userJson);
     }
 
 }

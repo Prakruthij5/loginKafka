@@ -36,11 +36,21 @@ public class Controller {
 	
 	@PostMapping("/post")
 	 public ResponseEntity<String> sendMessage(@RequestBody User user) {
-		
+		LoginConsumer.user=null;
 	        producer.publishToTopic(user);
-	      
-	        return new ResponseEntity<String>("User details has been saved", HttpStatus.OK);
-	    }
+	        while(true) {
+	        	if(LoginConsumer.user!=null) {
+	        		break;
+	        	}
+	        }
+	        if(LoginConsumer.user.getStatus().equals("OK")) {
+	        	return new ResponseEntity<String>("OK", HttpStatus.OK);
+	        }
+	        else {
+	        	return new ResponseEntity<String>("KO", HttpStatus.OK);
+	        }
+	}
+	
 	
 	 @GetMapping("/messages")
 	    public ResponseEntity<List<UserModel>> getConsumedMessages() {

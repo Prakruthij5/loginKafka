@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 public class LoginConsumer {
 	
 	  private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	  
+	 public static UserModel user=null;
 	public static final String LOGIN_NOTIFICATION_TOPIC="loginNotificationReq";
 	
 	@Autowired
@@ -33,7 +33,7 @@ public class LoginConsumer {
 	public void consumeFromTopic(String message) {
 		Gson gson = new Gson();
 //       message="{'email':'', 'password':''}";
-		UserModel user=gson.fromJson(message,UserModel.class);
+		this.user=gson.fromJson(message,UserModel.class);
 		if(user.getStatus() != null && user.getStatus().equals("OK")) {
 			
 			//loginNotion object and send this to email topic
